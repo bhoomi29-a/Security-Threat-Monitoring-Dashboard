@@ -12,7 +12,7 @@ const DATA_FILE = path.join(DATA_DIR, 'threats.json');
 
 app.use(helmet({ contentSecurityPolicy: false }));
 app.use(express.json({ limit: '30kb' }));
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(__dirname));
 app.use('/api/', rateLimit({ windowMs: 60 * 1000, limit: 120, standardHeaders: 'draft-7', legacyHeaders: false }));
 
 const seedThreats = [
