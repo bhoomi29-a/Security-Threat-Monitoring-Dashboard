@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Security Threat Monitor — defensive security dashboard demo" />
+  <title>Sentinel | Security Threat Monitor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <div class="brand"><div class="brand-mark">S</div><div><strong>sentinel<span>.</span></strong><small>SECURITY CENTER</small></div></div>
+      <div class="workspace-label">WORKSPACE</div>
+      <nav class="nav">
+        <a class="nav-link active" href="#overview" data-view="overview"><span class="nav-icon">▦</span> Overview</a>
+        <a class="nav-link" href="#threats" data-view="threats"><span class="nav-icon">◈</span> Threat activity <span class="nav-count" id="navCount">0</span></a>
+        <a class="nav-link" href="#analytics" data-view="analytics"><span class="nav-icon">▥</span> Analytics</a>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="system-card"><div class="system-head"><span class="pulse"></span> Demo system online</div><p>Monitoring sample events</p><div class="system-line"><span>API status</span><strong id="apiStatus">Checking…</strong></div><div class="system-line"><span>Storage</span><strong id="storageMode">—</strong></div></div>
+        <div class="profile"><div class="avatar">ST</div><div><strong>Security Team</strong><small>Project workspace</small></div><span class="dots">•••</span></div>
+      </div>
+    </aside>
+    <main class="main">
+      <header class="topbar">
+        <button class="mobile-menu" id="menuBtn" aria-label="Toggle navigation">☰</button>
+        <div class="crumb">Security Center <span>/</span> <strong id="pageName">Overview</strong></div>
+        <div class="top-actions"><span class="environment"><i></i> DEMO ENVIRONMENT</span><button class="icon-button" id="refreshBtn" title="Refresh data">↻</button><div class="top-avatar">ST</div></div>
+      </header>
+      <section class="page active-page" id="overviewPage">
+        <div class="page-heading"><div><div class="eyebrow">THREAT INTELLIGENCE <span class="live-dot"></span> LIVE DEMO</div><h1>Security overview</h1><p>Monitor alerts, investigate activity, and keep track of your security posture.</p></div><button class="primary-btn" id="addThreatBtn"><span>＋</span> Add threat</button></div>
+        <div class="stat-grid">
+          <article class="stat-card"><div class="stat-top"><span>Total threats</span><span class="stat-icon purple">◈</span></div><div class="stat-value" id="totalStat">—</div><div class="stat-foot"><span class="muted">All recorded events</span></div><div class="stat-bar purple-bar"><i></i></div></article>
+          <article class="stat-card"><div class="stat-top"><span>Open alerts</span><span class="stat-icon orange">⌁</span></div><div class="stat-value" id="openStat">—</div><div class="stat-foot"><span class="status-dot orange-dot"></span><span class="muted">Needs review</span></div><div class="stat-bar orange-bar"><i></i></div></article>
+          <article class="stat-card"><div class="stat-top"><span>Critical threats</span><span class="stat-icon red">⚠</span></div><div class="stat-value" id="criticalStat">—</div><div class="stat-foot"><span class="status-dot red-dot"></span><span class="muted">Unresolved critical severity</span></div><div class="stat-bar red-bar"><i></i></div></article>
+          <article class="stat-card"><div class="stat-top"><span>Resolved</span><span class="stat-icon green">✓</span></div><div class="stat-value" id="resolvedStat">—</div><div class="stat-foot"><span class="status-dot green-dot"></span><span class="muted">Closed alerts</span></div><div class="stat-bar green-bar"><i></i></div></article>
+        </div>
+        <div class="content-grid">
+          <article class="panel chart-panel"><div class="panel-heading"><div><h2>Threat severity</h2><p>Current distribution by severity level</p></div><span class="subtle-chip">ALL EVENTS</span></div><div class="severity-chart" id="severityChart"></div><div class="chart-legend"><span><i class="legend-dot critical"></i>Critical</span><span><i class="legend-dot high"></i>High</span><span><i class="legend-dot medium"></i>Medium</span><span><i class="legend-dot low"></i>Low</span></div></article>
+          <article class="panel status-panel"><div class="panel-heading"><div><h2>Response status</h2><p>Incident handling progress</p></div><span class="mini-shield">◇</span></div><div class="donut-wrap"><div class="donut" id="statusDonut"><div><strong id="statusTotal">0</strong><small>THREATS</small></div></div><div class="status-legend"><div><span><i class="legend-dot open"></i>Open</span><strong id="legendOpen">0</strong></div><div><span><i class="legend-dot investigating"></i>Investigating</span><strong id="legendInvestigating">0</strong></div><div><span><i class="legend-dot resolved"></i>Resolved</span><strong id="legendResolved">0</strong></div></div></div></article>
+        </div>
+        <article class="panel table-panel"><div class="panel-heading table-heading"><div><h2>Recent threat activity</h2><p>Latest events recorded by the monitoring system</p></div><button class="text-btn" id="viewAllBtn">View all threats <span>→</span></button></div><div class="table-wrap"><table><thead><tr><th>THREAT</th><th>SOURCE IP</th><th>SEVERITY</th><th>STATUS</th><th>DETECTED</th><th></th></tr></thead><tbody id="recentBody"></tbody></table></div><div class="empty-state hidden" id="recentEmpty">No threats match the current filters.</div></article>
+        <div class="footnote"><span>ⓘ</span> This is a college project demo using sample threat events. It is not connected to real security sensors.</div>
+      </section>
+      <section class="page" id="threatsPage">
+        <div class="page-heading"><div><div class="eyebrow">EVENT MANAGEMENT</div><h1>Threat activity</h1><p>Search, filter, and update sample security events.</p></div><button class="primary-btn" id="addThreatBtn2"><span>＋</span> Add threat</button></div>
+        <article class="panel table-panel"><div class="filter-row"><div class="search-box"><span>⌕</span><input id="searchInput" type="search" placeholder="Search threats, IPs, assets..." /></div><select id="severityFilter"><option value="">All severities</option><option>Critical</option><option>High</option><option>Medium</option><option>Low</option></select><select id="statusFilter"><option value="">All statuses</option><option>Open</option><option>Investigating</option><option>Resolved</option></select><select id="typeFilter"><option value="">All types</option><option>Authentication</option><option>Network</option><option>Web Attack</option><option>Endpoint</option><option>Malware</option><option>Other</option></select></div><div class="table-wrap"><table><thead><tr><th>THREAT</th><th>SOURCE IP</th><th>TYPE</th><th>SEVERITY</th><th>STATUS</th><th>DETECTED</th><th>ACTIONS</th></tr></thead><tbody id="threatsBody"></tbody></table></div><div class="empty-state hidden" id="threatsEmpty">No threats found. Try changing the filters or add a new threat.</div><div class="table-footer"><span id="resultCount">0 results</span><span>Demo data · Refresh to reload</span></div></article>
+      </section>
+      <section class="page" id="analyticsPage">
+        <div class="page-heading"><div><div class="eyebrow">INSIGHTS & TRENDS</div><h1>Analytics</h1><p>A quick breakdown of the events currently in this demo workspace.</p></div><button class="secondary-btn" id="analyticsRefresh">↻ Refresh analytics</button></div>
+        <div class="content-grid analytics-grid"><article class="panel"><div class="panel-heading"><div><h2>Events by category</h2><p>Count by detection type</p></div></div><div id="typeChart" class="type-chart"></div></article><article class="panel"><div class="panel-heading"><div><h2>Severity summary</h2><p>Share of total recorded events</p></div></div><div id="severitySummary" class="severity-summary"></div></article></div>
+        <div class="footnote"><span>ⓘ</span> Analytics are calculated from the currently stored sample records, not from live network traffic.</div>
+      </section>
+    </main>
+  </div>
+
+  <div class="modal-backdrop hidden" id="modalBackdrop">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="modal-head"><div><div class="eyebrow">EVENT MANAGEMENT</div><h2 id="modalTitle">Add threat event</h2></div><button class="close-btn" id="closeModal" aria-label="Close">×</button></div>
+      <p class="modal-description">Create a sample event for your dashboard. Use documentation-only IP addresses in this demo.</p>
+      <form id="threatForm">
+        <label>Threat title<input name="title" required maxlength="120" placeholder="e.g. Repeated failed login attempts" /></label>
+        <div class="form-two"><label>Source IP<input name="sourceIp" required maxlength="120" placeholder="e.g. 192.0.2.10" /></label><label>Asset / system<input name="asset" required maxlength="120" placeholder="e.g. Admin Portal" /></label></div>
+        <div class="form-two"><label>Threat type<select name="type" required><option>Authentication</option><option>Network</option><option>Web Attack</option><option>Endpoint</option><option>Malware</option><option>Other</option></select></label><label>Severity<select name="severity" required><option>Low</option><option>Medium</option><option>High</option><option>Critical</option></select></label></div>
+        <label>Description<textarea name="description" required maxlength="500" rows="3" placeholder="Briefly describe the sample alert..."></textarea></label>
+        <div class="form-error hidden" id="formError"></div>
+        <div class="modal-actions"><button type="button" class="secondary-btn" id="cancelModal">Cancel</button><button type="submit" class="primary-btn" id="saveThreatBtn">Save threat</button></div>
+      </form>
+    </div>
+  </div>
+  <div class="toast" id="toast" role="status"></div>
+  <script src="/app.js"></script>
+</body>
+</html>
