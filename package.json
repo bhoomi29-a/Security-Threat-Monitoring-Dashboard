@@ -1,0 +1,17 @@
+{
+  "name": "security-threat-monitor",
+  "version": "1.0.0",
+  "description": "College group project: defensive security threat monitoring dashboard",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "engines": { "node": ">=18" },
+  "dependencies": {
+    "express": "^4.21.2",
+    "express-rate-limit": "^7.5.0",
+    "helmet": "^8.0.0",
+    "mongodb": "^6.12.0"
+  }
+}
